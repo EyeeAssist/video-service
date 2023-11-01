@@ -19,7 +19,7 @@ app.add_middleware(
 @app.post("/video", dependencies=[Depends(api_key_auth)])
 async def process_video(video: Video):
     if is_youtube_url(video.link):
-        download_video(video.link)
-        return {"video": "Descargado"}
+        path = download_video(video.link)
+        return {"video": path}
     else:
         raise HTTPException(status_code=400, detail="El link no es un link de youtube valido")

@@ -1,5 +1,6 @@
 import pytube
 import re
+import uuid
 
 
 def download_video(url: str):
@@ -14,8 +15,9 @@ def download_video(url: str):
 
     print(video.title)
     print(video.length)
-
-    video.streams.filter(file_extension="mp4").get_highest_resolution().download()
+    filename = str(uuid.uuid4()) + ".mp4"
+    video.streams.filter(file_extension="mp4").get_highest_resolution().download(filename=filename)
+    return filename
 
 
 def is_youtube_url(url):
