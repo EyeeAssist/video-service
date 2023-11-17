@@ -4,6 +4,8 @@ from auth.auth_service import api_key_auth
 from video.video_entity import Video
 from video.video_service import is_youtube_url, download_video, read_video
 from image.image_service import process_image
+from googletrans import Translator
+translator = Translator()
 
 
 app = FastAPI()
@@ -27,8 +29,9 @@ async def process_video(video: Video):
             print('Describing image in the second -> ', frame['time'])
             description = process_image(frame['frame_image'])
             print('Description ->', description)
+            translated = translator.translate(description, dest='es')
             result.append({'time': frame['time'],
-                           'description': description})
+                           'description': translated[0].text})
         return {"video": result}
     else:
         raise HTTPException(status_code=400, detail="El link no es un link de youtube valido")
