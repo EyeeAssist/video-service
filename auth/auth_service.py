@@ -1,8 +1,13 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 
 api_keys = [
-    "akljnv13bvi2vfo0b0bw"
+        os.getenv('AUTH_TOKEN')
 ]
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
