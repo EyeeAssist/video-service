@@ -87,14 +87,12 @@ def read_video(path):
 
     frames_list = []
     current_time = 0.0
-    print('Leyendo video ->', path)
     while True:
         video.set(cv2.CAP_PROP_POS_MSEC, current_time)
         ret, frame = video.read()
         if not ret:
             break
         tiempo_actual = video.get(cv2.CAP_PROP_POS_MSEC)/1000
-        print('Leyendo tiempo -> ', tiempo_actual)
         if current_time == 0.0:
             imagen_pillow = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             frames_list.append({'time': tiempo_actual,
@@ -102,8 +100,7 @@ def read_video(path):
                                 'cv_image': frame})
         elif current_time > 0.0 and frames_list[-1]:
             similitud = calcular_similitud(frames_list[-1]['cv_image'], frame)
-            print('Similitud ->', similitud)
-            if similitud > 0.69 and not es_frame_borrosa(frame):
+            if similitud > 0.77 and not es_frame_borrosa(frame):
                 imagen_pillow = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
                 frames_list.append({'time': tiempo_actual,
                                     'frame_image': imagen_pillow.convert("RGB"),
